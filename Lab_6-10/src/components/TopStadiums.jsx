@@ -1,30 +1,15 @@
 import React from 'react';
-import { Box, Grid} from '@mui/material';
+import {Box, CircularProgress, Grid} from '@mui/material';
 import TopStadiumCard from '../components/TopStadiumCard.jsx';
-
-import Wembley from '../assets/wembley.jpg';
-import SanSiro from '../assets/san_siro.jpg';
-import SantiagoBernabeo from '../assets/santiago_bernabeo.jpg';
-
-const stadiumList = [
-    {
-        image: Wembley,
-        title: "Wembley",
-        description: "One of the best stadiums. Top stadium",
-    },
-    {
-        image: SanSiro,
-        title: "San Siro",
-        description: "One of the best stadiums. Top stadium",
-    },
-    {
-        image: SantiagoBernabeo,
-        title: "Santiago Bernabeu",
-        description: "One of the best stadiums. Top stadium",
-    },
-];
+import useFetchStadiums from "../hooks/useFetchStadiums.js";
 
 function TopStadiums() {
+    const { stadiums, loading, error } = useFetchStadiums();
+
+
+    const itemsToDisplay = stadiums.slice(0, 3);
+
+    if (error) return <div>Error: {error}</div>;
     return (
         <Box
             padding={{ xs: '25px', md: '25px 125px' }}
@@ -34,8 +19,11 @@ function TopStadiums() {
             justifyContent="center"
             gap="50px"
         >
+            {loading ? (
+                <CircularProgress color="primary" size={60} />
+            ) : (
             <Grid container spacing={5}>
-                {stadiumList.map((item, index) => (
+                {itemsToDisplay.map((item, index) => (
                     <Grid item xs={12} sm={6} md={4} key={`stadium-${index}`}>
                         <TopStadiumCard
                             image={item.image}
@@ -45,6 +33,8 @@ function TopStadiums() {
                     </Grid>
                 ))}
             </Grid>
+
+                )}
         </Box>
     );
 }
