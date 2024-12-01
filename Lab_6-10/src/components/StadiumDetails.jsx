@@ -2,11 +2,27 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, TextField, Select, MenuItem, CircularProgress } from '@mui/material';
 import useFetchStadiums from "../hooks/useFetchStadiums.js";
+import {useDispatch} from "react-redux";
+import { addToCart } from '../redux_elements/cartSlice.js';
 
 function StadiumDetails() {
     const { id } = useParams();
     const { stadiums, loading, error } = useFetchStadiums();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () => {
+        console.log("Adding to cart:", stadium);
+
+        dispatch(addToCart({
+            id: stadium.id,
+            name: stadium.title,
+            description: stadium.description,
+            seats: stadium.seats,
+            image: stadium.image,
+        }));
+    };
+
 
 
     const stadium = stadiums.find(stadium => String(stadium.id) === id);
@@ -97,10 +113,12 @@ function StadiumDetails() {
                                 Go back
                             </Button>
 
-                            <Button variant="contained" color="primary" sx={{
-                                padding: '10px 35px',
-                                fontSize: '1.2rem'
-                            }}
+                            <Button variant="contained" color="primary"
+                                    onClick={handleAddToCart}
+                                    sx={{
+                                        padding: '10px 35px',
+                                        fontSize: '1.2rem'
+                                    }}
                             >
                                 Add to cart
                             </Button>
@@ -112,5 +130,4 @@ function StadiumDetails() {
         </Box>
     );
 }
-
 export default StadiumDetails;

@@ -12,27 +12,37 @@ mongoose.connect(mongoURI)
     .then(() => console.log('Connected to MongoDB Atlas'))
     .catch((err) => console.error('Failed to connect to MongoDB Atlas:', err));
 
+
 app.get('/stadiums', async (req, res) => {
+    const { search, seats } = req.query;
+
     try {
-        const stadiumData = await Stadium.find();
+        let query = {};
+
+        if (search) {
+            query.title = { $regex: search, $options: 'i' };
+        }
+
+
+        if (seats) {
+            if (seats === '<30000') {
+                query.seats = { $lt: 30000 };
+            } else if (seats === '>30000') {
+                query.seats = { $gt: 30000, $lte: 50000 };
+            } else if (seats === '>50000') {
+                query.seats = { $gt: 50000 };
+            }
+        }
+
+        const stadiumData = await Stadium.find(query);
         res.json(stadiumData);
     } catch (error) {
+        console.error('Error fetching stadiums with filters:', error);
         res.status(500).json({ message: 'Error fetching stadiums', error });
     }
 });
 
-app.get('/stadiums/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        const stadium = await Stadium.findById(id);
-        if (!stadium) {
-            return res.status(404).json({ message: 'Stadium not found' });
-        }
-        res.json(stadium);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching stadium', error });
-    }
-});
+
 
 app.post('/stadiums/bulk', async (req, res) => {
     try {

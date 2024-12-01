@@ -65,6 +65,24 @@ function Header() {
                         Stadiums
                     </Typography>
                 </Link>
+                <Link to="/stadiums/cart" style={{ textDecoration: 'none' }}>
+                    <Typography
+                        color="#FFFFFF"
+                        fontFamily="'Roboto', sans-serif"
+                        variant="h6"
+                        sx={{
+                            fontWeight: 'bold',
+                            fontSize: '1.5rem',
+                            padding: '10px 20px',
+                            '&:hover': {
+                                color: '#0280E2',
+                                transition: 'color 0.3s ease'
+                            }
+                        }}
+                    >
+                        Cart
+                    </Typography>
+                </Link>
             </Box>
         </Box>
     );
