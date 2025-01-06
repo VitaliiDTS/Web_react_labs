@@ -8,6 +8,7 @@ function TopStadiumCard({ image, title, description }) {
                 component="img"
                 height="340"
                 image={image}
+
             />
             <CardContent sx={{height:100, display: 'flex', flexDirection: 'column', gap: 2, backgroundColor:"#2A3843"}}>
                 <Typography variant="h6" component="h2" sx={{fontSize: 25 ,fontWeight: 'bold', color:"white"}}>

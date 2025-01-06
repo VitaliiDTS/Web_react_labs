@@ -10,6 +10,7 @@ function Cart() {
     const navigate = useNavigate();
 
     const handleGoBack = () => navigate("/stadiums");
+    const handleCheckout = () => navigate("/checkout");
 
     return (
         <Box sx={{
@@ -53,11 +54,14 @@ function Cart() {
                     Back to Catalog
                 </Button>
 
-                <Button variant="contained" color="primary"
-                        sx={{
-                            padding: '10px 35px',
-                            fontSize: '1.2rem'
-                        }}
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleCheckout}
+                    sx={{
+                        padding: '10px 35px',
+                        fontSize: '1.2rem'
+                    }}
                 >
                     Continue
                 </Button>
